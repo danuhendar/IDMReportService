@@ -1,0 +1,10 @@
+======================= Starting IDMReporter =======================
+2022-10-28 10 - Diff RWIB : 0:0:0 Cabang : G001
+2022-10-28 10 - Diff BWIB : 0:0:13 Cabang : 
+2022-10-28 10 - Diff BWIB : 0:0:14 Cabang : 
+2022-10-28 10 - Diff BWIB : 0:0:15 Cabang : 
+2022-10-28 10 - Diff RWIB : 0:0:7 Cabang : G001
+2022-10-28 10 - Diff RWIB : 0:0:7 Cabang : REG4
+2022-10-28 10 - Diff RWIB : 0:0:0 Cabang : G001
+2022-10-28 10 - Error Thread Run_time	:	java.lang.NullPointerException
+2022-10-28 10 - Diff BWIB : 0:1:21 Cabang : 

@@ -1,24 +1,11 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Properties;
-import java.util.UUID;
-
-import org.bson.Document;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -398,8 +385,8 @@ public class IDMReportService {
 	 public boolean TaskkillCMD(){
 	        boolean res = false;
 	        try {
-	            Runtime r = Runtime.getRuntime();
-	            Process proc = r.exec("taskkill /F /IM java.exe");
+	            //Runtime r = Runtime.getRuntime();
+	            //Process proc = r.exec("taskkill /F /IM java.exe");
 	            //WriteFile("log_restart_WIN.txt", "","Restart Service");
 	            res = true;
 	        } catch (Exception e) {
@@ -445,14 +432,14 @@ public class IDMReportService {
 							//System.err.println("BYLINE > " + payload);
 						} else {
 							String payload = new String(message.getPayload());
-							String msg_type = "";
+							 
 							String message_ADT_Decompress = "";
 							try {
 								message_ADT_Decompress = gf.ADTDecompress(message.getPayload());
-								msg_type = "json";
+								 
 							} catch (Exception exc) {
 								message_ADT_Decompress = payload;
-								msg_type = "non json";
+								 
 							}
 
 							UnpackJSON(message_ADT_Decompress);

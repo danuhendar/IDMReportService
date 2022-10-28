@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import com.mongodb.MongoClient;
+
 import java.io.*;
 import org.eclipse.paho.client.mqttv3.*;
 import com.mongodb.client.MongoClients;
@@ -15,17 +15,12 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.management.ManagementFactory;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,20 +29,14 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -55,12 +44,10 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import sun.misc.*;
 /**
  *
  * @author Mr.Danu
@@ -409,6 +396,7 @@ public class Global_function {
    	        
    	        
    	        System.out.println("Load Setting Sukses");
+   	        br.close();
        	}catch(Exception exc) {
        		exc.printStackTrace();
        	}
@@ -477,11 +465,7 @@ public class Global_function {
 
    public void PublishMessageNotDocumenter(String topic,byte[] content,int counter,String plain_text_res_message,int qos){
            try {
-             
-               
-               SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
                Date HariSekarang = new Date();
-               JSONParser parser = new JSONParser();
                //-- sesi koneksi db --//
                //String file_attribute           = ReadFile("attribute");
                //String new_attribute            = sqlcon.DecodeString(file_attribute);
@@ -823,7 +807,7 @@ public class Global_function {
 
             com.mongodb.client.MongoClient mongo = MongoClients.create("mongodb://"+ip_mongodb+":"+port_mongodb);  //(1)
             MongoDatabase db = mongo.getDatabase(nama_database);
-            boolean cek_collection = createCollection(table,nama_database);
+            
             db.getCollection(table).insertOne(doc);
             mongo.close();
         }catch(Exception exc){
@@ -864,21 +848,6 @@ public class Global_function {
     public String get_curtime(){
         String res = "";
         try {
-              int year = Calendar.getInstance().get(Calendar.YEAR);
-              int month = Calendar.getInstance().get(Calendar.MONTH)+1;
-              String bulan = "";
-              if(month<10){
-                  bulan = "0"+month;
-              }else{
-                  bulan = ""+month;
-              }
-              int d = Calendar.getInstance().get(Calendar.DATE);
-              String tanggal = "";
-              if(d<10){
-                  tanggal = "0"+d;
-              }else{
-                  tanggal = ""+d;
-              }
               int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
               String jam = "";
               if(h<10){
@@ -893,13 +862,7 @@ public class Global_function {
               }else{
                   menit = ""+min;
               }
-              int sec = Calendar.getInstance().get(Calendar.SECOND);
-              String detik = "";
-              if(sec<10){
-                  detik = "0"+sec;
-              }else{
-                  detik = ""+sec;
-              }
+              
               String concat = jam+":"+menit;
               res = concat;                      
         } catch (Exception e) {
@@ -1026,13 +989,9 @@ public class Global_function {
           try {
           
             int qos = 0;
-            String msg_type = "non compress";
-            SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            Date HariSekarang = new Date();
-            JSONParser parser = new JSONParser();
             
             //-- sesi koneksi db --//
-            String file_attribute           = ReadFile("attribute");
+            
             String new_attribute            = "";//sqlcon.DecodeString(file_attribute);
             //System.out.println("new_atCEKAKTItribute : "+new_attribute);
             String sp_new_attribute[]       = new_attribute.split("~");
@@ -1145,13 +1104,7 @@ public class Global_function {
       
     public void PublishMessageAndDocumenter(String topic,byte[] content,int counter,String plain_text_res_message,int qos){
         try {
-          
-            
-            SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            Date HariSekarang = new Date();
-            JSONParser parser = new JSONParser();
             //-- sesi koneksi db --//
-            String file_attribute           = ReadFile("attribute");
             String new_attribute            = ""; //sqlcon.DecodeString(file_attribute);
             //System.out.println("new_attribute : "+new_attribute);
             String sp_new_attribute[]       = new_attribute.split("~");
@@ -1199,7 +1152,7 @@ public class Global_function {
                     //InsTransReport(Parser_TASK,Parser_ID,Parser_SOURCE,Parser_COMMAND,Parser_OTP,Parser_TANGGAL_JAM,Parser_VERSI,Parser_HASIL,Parser_FROM,Parser_TO,Parser_SN_HDD,Parser_IP_ADDRESS,Parser_STATION,Parser_CABANG,Parser_NAMA_FILE,Parser_CHAT_MESSAGE,Parser_REMOTE_PATH,Parser_LOCAL_PATH,Parser_SUB_ID,false,"INSERT","transreport");
                 }
                 
-                PrintMessage2("SEND > "+Parser_TASK, counter, "json", topic, Parser_TASK, Parser_FROM, Parser_TO, HariSekarang, HariSekarang);
+                PrintMessage2("SEND > "+Parser_TASK, counter, "json", topic, Parser_TASK, Parser_FROM, Parser_TO, null, null);
             }catch(Exception exc){
                exc.printStackTrace();
             }
@@ -1373,10 +1326,6 @@ public class Global_function {
     
     public void del_history_log(){
         String tanggal = get_tanggal_curdate();
-        String curtime = get_tanggal_curdate_curtime_for_log(false);
-        
-        
-           
         String nama_file_except = "log_idmreporter_"+tanggal+".txt";
         String[] pathnames;
 
@@ -1530,21 +1479,7 @@ public class Global_function {
                }else{
                    jam = ""+h;
                }
-               int min = Calendar.getInstance().get(Calendar.MINUTE);
-               String menit = "";
-               if(min<10){
-                   menit = "0"+min;
-               }else{
-                   menit = ""+min;
-               }
-               int sec = Calendar.getInstance().get(Calendar.SECOND);
-               String detik = "";
-               if(sec<10){
-                   detik = "0"+sec;
-               }else{
-                   detik = ""+sec;
-               }
-               
+              
                String concat = "";
                if(format_log == true)
                {
@@ -1605,7 +1540,6 @@ public class Global_function {
     
     public void PrintMessage(String FROM_THREAD,int counter,String msg_type,String topic,String Parser_TASK,String Parser_FROM,String Parser_TO,Date HariSekarang,Date HariSekarang_run){
         //=========================================================//
-        Global_variable gv = new Global_variable();
         SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         System.out.println("\n");
         System.out.println("PUBLISH RECEIVE "+FROM_THREAD+" - "+counter+"");
@@ -1675,17 +1609,13 @@ public class Global_function {
     
     public void PrintMessage2(String FROM_THREAD,int counter,String msg_type,String topic,String Parser_TASK,String Parser_FROM,String Parser_TO,Date HariSekarang,Date HariSekarang_run){
         //=========================================================//
-        Global_variable gv = new Global_variable();
-        SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        //SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         //System.out.println("\n");
         System.out.println(FROM_THREAD+" : "+counter+" >> "+Parser_FROM);
     }
     
     public void PrintMessage3(String FROM_THREAD,int counter,String msg_type,String topic,String Parser_TASK,String Parser_FROM,String Parser_TO,Date HariSekarang,Date HariSekarang_run){
         //=========================================================//
-        Global_variable gv = new Global_variable();
-        SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        //System.out.println("\n");
         System.out.println(counter+" >> "+Parser_FROM.split("_")[0]+"_"+Parser_FROM.split("_")[1]);
     }
       
@@ -1747,7 +1677,7 @@ public class Global_function {
     	//Properties p = new Properties();
     	int res_keepalive = 60;
     	Boolean res_cleansession = false;   
-    	int qos_message = 1;
+    	 
 	        
 	        try {
 	            //p.load(new FileInputStream("setting.ini"));
@@ -1774,19 +1704,7 @@ public class Global_function {
 	            ex.printStackTrace();
 	        }
 	        
-	     
-	           
-	         
-	            SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-	            Date HariSekarang = new Date();
-	            JSONParser parser = new JSONParser();
-	            //-- sesi koneksi db --//
-	            String file_attribute           = ReadFile("attribute");
-	            String new_attribute            = "";//sqlcon.DecodeString(file_attribute);
-	            //System.out.println("new_attribute : "+new_attribute);
-	            String sp_new_attribute[]       = new_attribute.split("~");
-	            //String broker_primary[]         = sp_new_attribute[0].split(":");
-	            
+	             
 	            String res_broker_primary       = getIp_broker()+":"+getPort_broker();//broker_primary[0]+":"+broker_primary[1];
 	          
 	            String res_username_primary     = "";
@@ -1907,9 +1825,7 @@ public class Global_function {
     
     public void get_MonitoringResources(){
         try {
-            SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            Locale lokal = null;
-            String pola = "dd-MM-yyyy HH:mm:ss";
+             
             DecimalFormat format = new DecimalFormat("##.##");
             long total, free, used;
             int mb = 1024*1024;
