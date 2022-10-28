@@ -646,14 +646,14 @@ public class IDMReportService {
 									 
 									
 									String command_BCCommandDC = "sh /root/restart_bc_dc.sh";
-									executeCommandNotreturn(command_BCCommandDC);
-									//RestartIDMReporter_by_service("LISTENER_BACKEND_523/",command_BCCommandDC_REG1,"BCCommandDC_REG1");
-									Thread.sleep(3000);
+									//executeCommandNotreturn(command_BCCommandDC);
+									RestartIDMReporter_by_service("LISTENER_BACKEND_523/",command_BCCommandDC,"BCCommandDC");
+									Thread.sleep(1000);
 									
 									String command_BC_SQL = "sh /root/restart_bc_sql.sh";
-									//RestartIDMReporter_by_service("LISTENER_BACKEND_523/",command_BC_SQL_REG1,"BC_SQL_REG1");
-									executeCommandNotreturn(command_BC_SQL);
-									Thread.sleep(3000);
+									RestartIDMReporter_by_service("LISTENER_BACKEND_523/",command_BC_SQL,"BC_SQL");
+									//executeCommandNotreturn(command_BC_SQL);
+									Thread.sleep(1000);
 									
 									 
 									
